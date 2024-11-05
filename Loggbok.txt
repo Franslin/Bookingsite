@@ -1,0 +1,7 @@
+2/11 - Sätter upp projekt och börjar bygga på grundfunktionerna. Jag installerar typescript och sätter inställningar för detta samt skapar mapp-struktur. Då jag inte riktigt har fattat hur gist fungerar ännu så sätter jag upp en temporär lokal json-fil som jag fetchar för att kunna utveckla resten av funktionerna så länge. 
+Jag fixar funktioner för att kunna välja säten, rendera film-alternativen på sidan och börjar fixa på texten som ska visa antal säten och pris. 
+Jag får kolla upp vissa saker som typescript klagar på, bland annat varför det automatiskt läggs till frågetecken efter vissa variabler. 
+
+I en separat fil så har jag byggt funktionen som fetchar json-filen och sedan med datan skapar objekt utifrån en klass. Både klassen och funktionen exporterar jag så att de kan användas från "huvudfilen". Jag exporterar klassen bara för att kunna använda den till typecasting. Jag tyckte att detta var ett bättre alternativ än att skapa en separat egen typ med samma variabler eftersom man då skulle behöva göra ändringar i klassen på två ställen. 
+
+5/11 - skapar github repo
