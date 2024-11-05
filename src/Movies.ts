@@ -13,9 +13,16 @@ class Movie{
     }
 }
 
+const fetchGist = async () => {
+    const request = await fetch(`https://api.github.com/gists/609b043555ab17753215632c108914a8`);
+    const gist = await request.json(); // omvandlar svaret till ett JavaScript-objekt
+    return JSON.parse(gist.files["db.json"].content); // konverterar strängen i content till ett objekt
+}
+
+
 const getMovieObjects = async () => {
     try{
-        const response = await fetch('./MoviesTemp.json')
+        const response = await fetchGist()
         const json = await response.json();
         
         let movies : Movie[] = [];
@@ -24,7 +31,7 @@ const getMovieObjects = async () => {
         return movies;
     }
     catch{
-        console.log('Could not get movies from file', console.error())
+        console.log('Could not get movies from gist', console.error())
     }
 }
 
