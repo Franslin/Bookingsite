@@ -5,3 +5,5 @@ Jag får kolla upp vissa saker som typescript klagar på, bland annat varför de
 I en separat fil så har jag byggt funktionen som fetchar json-filen och sedan med datan skapar objekt utifrån en klass. Både klassen och funktionen exporterar jag så att de kan användas från "huvudfilen". Jag exporterar klassen bara för att kunna använda den till typecasting. Jag tyckte att detta var ett bättre alternativ än att skapa en separat egen typ med samma variabler eftersom man då skulle behöva göra ändringar i klassen på två ställen. 
 
 5/11 - skapar github repo
+
+6/11 - skapar ett react projekt i en undermapp (ifall något blir fel) där jag ska bygga sidan.
