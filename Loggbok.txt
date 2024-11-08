@@ -6,4 +6,11 @@ I en separat fil så har jag byggt funktionen som fetchar json-filen och sedan m
 
 5/11 - skapar github repo
 
-6/11 - skapar ett react projekt i en undermapp (ifall något blir fel) där jag ska bygga sidan.
+6/11 - skapar ett react projekt i en undermapp (ifall något blir fel) där jag ska bygga sidan. Börjar bygga komponenter
+för film-alternativen men får problem med hur jag ska typa propsen. Bygger useEffect för att rendera filmerna när sidan laddas.
+
+7/11 - frågar i klassen och får svar kring att typa propsen. Jag har lagt märke till att eventlisteners på sätena inte fungerar i react. Jag skapar så en komponent som motsvarar ett säte som jag sedan renderar på raderna. Då kan varje komponent själv hålla koll på om den är vald eller inte, istället för att till exempel skapa en Array med valda sätesnummer. Jag kommer dock att behöva ett usestate som håller koll på pris och antal valda säten.  
+
+Occupied seats är kodade som strängar eftersom jag inte hämtar dem från en json fil för tillfället. Om jag hinner så skulle jag vilja lägga till detta, men de efterfrågade funktionerna är en prioritering just nu. 
+
+Behöver ta reda på hur jag ska hantera valet av filmer i react, om detta också ska sparas i ett state eller om det räcker med att hämta det valda html-elementet med JavaScript. Jag vill egentligen inte att användaren ska kunne byta film när den har börjat välja säten, utan att den då behöver genom föra bokningen helt först. Då måste jag hitta ett sätt att göra <select>-elementet inaktivt medan det finns säten valda. 

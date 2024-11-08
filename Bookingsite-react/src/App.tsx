@@ -1,15 +1,14 @@
 import { useState } from 'react'
-import './App.css'
+//import './App.css'
 import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
+import BookingPage from './components/BookingPage';
 
 
 function Layout(){
   //<Outlet/> byts ut mot rätt komponent i listan nedan beroende på url:n
   return(
     <>
-      <Header />
       <Outlet />
-      <Footer />
     </>
   );
 }
@@ -22,11 +21,11 @@ const router = createBrowserRouter([
     children: [
       {
         path:'/',
-        element: <Home></Home>,
+        element: <BookingPage></BookingPage>,
       },
       {
-        path:'/booking',
-        element: <Products></Products>,
+        //path:'/booking',
+        //element: <Products></Products>,
       }
     ]
   }

@@ -1,6 +1,11 @@
-import React from "react";
 
-const MovieOption = ({key: string, title: string, value: number}) => {
+type MovieOptionProps = {
+    key: string;
+    title: string;
+    value: number;
+}
+
+const MovieOption = ({title, value}:MovieOptionProps) => {
 
     return(
         <option value={value}>{title} ({value} kr)</option>
