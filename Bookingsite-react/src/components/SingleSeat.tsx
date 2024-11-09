@@ -7,11 +7,14 @@ type SingleSeatProps = {
 
 function SingleSeat({isOccupied, seatClicked}:SingleSeatProps){
 
-    const [isSelected, setIfOccupied] = useState(false)
+    const [isSelected, setIfSelected] = useState(false)
 
     const whenSeatIsClicked = () : void => {
-        setIfOccupied(isSelected ? false : true)
-        seatClicked(`${isSelected ? "add seat" : "remove seat"}`)
+        console.log('isSelected: ' + isSelected)
+        setIfSelected(isSelected ? false : true)
+        console.log('isSelected: ' + isSelected)
+        //  Här har jag bytt plats på argumenten eftersom state-uppdateringen är asynkron och inte har hunnit uppdaterats än
+        seatClicked(`${isSelected ? "remove seat" : "add seat"}`)
     }
 
     return(

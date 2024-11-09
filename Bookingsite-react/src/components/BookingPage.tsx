@@ -1,47 +1,38 @@
 import React, { useEffect, useState } from "react";
-import {MovieData, getMovieObjects} from "./data/Movies";
 import MovieOption from "./MovieOption";
 import "./style.css"
 import SingleSeat from "./SingleSeat";
+import MovieSelector from "./MovieSelector";
 
 function BookingPage(){
     
     //  Lagrar filmerna
-    const [movies, setMovies] = useState<MovieData[]>([]) // Typecastar för att undvika att movies blir av typen never[]
     const [selectedSeats, setSelectedSeats] = useState<number>(0)
     const [totalSeatCost, setTotalSeatCost] = useState<number>(0)
     //  Dessa ska ju egentligen inte vara hårdkodade utan hämtas från databasem, men nu var faktiskt dina det också ;)
     const occupiedSeats : string[] = ['R2-S4', 'R2-S5', 'R3-S7', 'R3-S8', 'R5-S4', 'R5-S5', 'R6-S5', 'R6-S6', 'R6-S7'];
+    //  Om <select> ska vara disabled eller ej
+    const [isSelectMoviesDisabled, setIsSelectMoviesDisabled] = useState(false);
 
     const updateCountAndTotal = () => {
-      const count: HTMLElement = document.getElementById('count')
-      const total: HTMLElement = document.getElementById('total')
-
-      count.innerText = selectedSeats.toString();
+      const selectedMovie = document.getElementById('movie')
+      const selectedMoviePrice = selectedMovie.value
 
     }
+
+    //  När selectedSeats uppdateras så kollar denna om man ska kunna välja film eller inte
+    useEffect((): void => {
+      console.log('selectedSeats in useEffect in main: ' + selectedSeats)
+      setIsSelectMoviesDisabled(selectedSeats > 0 ? true : false)
+    }, [selectedSeats]);
 
     //  När användaren väljer en plats så vill vi att antalet valda platser och kostnaden ska uppdateras
     const seatClicked = (action: string): void => {
-      if(action === 'add seat'){
-        setSelectedSeats(selectedSeats + 1)
-      }
-      else{
-        setSelectedSeats(selectedSeats - 1)
-
-      }
+      console.log('seatClicked function called!!')
+      setSelectedSeats((prevState) => //prevState används för att få ett korrekt säkert värde från state
+        action === 'add seat' ? prevState + 1 : prevState - 1
+      );
     }
-
-    //  När sidan laddas första gången
-    useEffect(() => {
-
-        //  Hämtar filmerna
-        const fetchMovies = async() => {
-            const result = await getMovieObjects();
-            setMovies(result)
-        }
-        fetchMovies();
-    }, []);
 
     const renderSeatRow = (row: number) => {
       const seats = [];
@@ -61,16 +52,7 @@ function BookingPage(){
 
     return(
         <>
-            <div className="movie-container">
-            <label htmlFor="movie">Pick a movie:</label>
-      <select name="movie" id="movie">
-
-        {movies.map((movie) => (
-            <MovieOption key={movie.Title} title={movie.Title} value={movie.Price}></MovieOption>
-        ))}
-
-      </select>
-    </div>
+      <MovieSelector isSelectMoviesDisabled={isSelectMoviesDisabled}></MovieSelector>
     <ul className="showcase">
       <li>
         <div className="seat"></div>
@@ -107,7 +89,7 @@ function BookingPage(){
       </div>
     </div>
     <p className="text">
-      You have selected <span id="count">0</span> seats for a price of $<span id="total">0</span>
+      You have selected <span id="count">{selectedSeats}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
     </p>
         </>
     )
