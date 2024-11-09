@@ -1,5 +1,5 @@
 
-interface MovieData {
+interface MovieDataInterface {
     Title: string;
     Year: string;
     Price: number;
@@ -44,4 +44,4 @@ const getMovieObjects = async () :Promise<Movie[]> => {
 
 
 export { Movie, getMovieObjects };
-export type { MovieData };
+export type { MovieDataInterface };

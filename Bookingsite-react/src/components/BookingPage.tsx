@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from "react";
-import MovieOption from "./MovieOption";
 import "./style.css"
 import SingleSeat from "./SingleSeat";
 import MovieSelector from "./MovieSelector";
+import { MovieDataInterface } from "./data/Movies";
 
 function BookingPage(){
     
-    //  Lagrar filmerna
     const [selectedSeats, setSelectedSeats] = useState<number>(0)
     const [totalSeatCost, setTotalSeatCost] = useState<number>(0)
     //  Dessa ska ju egentligen inte vara hårdkodade utan hämtas från databasem, men nu var faktiskt dina det också ;)
     const occupiedSeats : string[] = ['R2-S4', 'R2-S5', 'R3-S7', 'R3-S8', 'R5-S4', 'R5-S5', 'R6-S5', 'R6-S6', 'R6-S7'];
     //  Om <select> ska vara disabled eller ej
     const [isSelectMoviesDisabled, setIsSelectMoviesDisabled] = useState(false);
-
-    const updateCountAndTotal = () => {
-      const selectedMovie = document.getElementById('movie')
-      const selectedMoviePrice = selectedMovie.value
-
-    }
+    //  Filmen som är vald, lagras som ett objekt
+    const [selectedMovie, setSelectedMovie] = useState<MovieDataInterface>();
 
     //  När selectedSeats uppdateras så kollar denna om man ska kunna välja film eller inte
+    //  Vi uppdaterar även priset för alla sätena
     useEffect((): void => {
-      console.log('selectedSeats in useEffect in main: ' + selectedSeats)
       setIsSelectMoviesDisabled(selectedSeats > 0 ? true : false)
+
+      console.log('selectedMovie from seatClicked(): ' + selectedMovie?.Title + " " + selectedMovie?.Price)
+      //  Om filmen inte har hunnits hämtats från MovieSelector.tsx än när programmet körs första gången
+      if(selectedMovie){
+        const price: number = selectedSeats * selectedMovie.Price;
+        setTotalSeatCost(price) 
+      }
     }, [selectedSeats]);
 
     //  När användaren väljer en plats så vill vi att antalet valda platser och kostnaden ska uppdateras
     const seatClicked = (action: string): void => {
-      console.log('seatClicked function called!!')
-      setSelectedSeats((prevState) => //prevState används för att få ett korrekt säkert värde från state
+        setSelectedSeats((prevState) => //prevState används för att få ett korrekt säkert värde från state
         action === 'add seat' ? prevState + 1 : prevState - 1
-      );
+        );      
     }
 
     const renderSeatRow = (row: number) => {
@@ -52,11 +53,11 @@ function BookingPage(){
 
     return(
         <>
-      <MovieSelector isSelectMoviesDisabled={isSelectMoviesDisabled}></MovieSelector>
+      <MovieSelector isSelectMoviesDisabled={isSelectMoviesDisabled} setSelectedMovie={setSelectedMovie}></MovieSelector>
     <ul className="showcase">
       <li>
         <div className="seat"></div>
-        <small>N/A</small>
+        <small>Aviable</small>
       </li>
       <li>
         <div className="seat selected"></div>

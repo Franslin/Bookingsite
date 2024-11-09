@@ -1,14 +1,13 @@
+import { MovieDataInterface } from "./data/Movies";
 
 type MovieOptionProps = {
-    key: string;
-    title: string;
-    value: number;
+    movie: MovieDataInterface;
 }
 
-const MovieOption = ({title, value}:MovieOptionProps) => {
+const MovieOption = ({movie}:MovieOptionProps) => {
 
     return(
-        <option value={value}>{title} ({value} kr)</option>
+        <option value={movie.Price}>{movie.Title} ({movie.Price} kr)</option>
     )
 }
 
