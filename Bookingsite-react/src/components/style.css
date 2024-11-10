@@ -16,6 +16,10 @@ body {
   margin: 0;
 }
 
+.hidden{
+  visibility: hidden;
+}
+
 .movie-container {
   margin: 20px 0;
 }

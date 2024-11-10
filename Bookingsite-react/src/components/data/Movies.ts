@@ -20,7 +20,7 @@ class Movie{
     }
 }
 
-const fetchGist = async () : Promise<MovieData[]> => {
+const fetchGist = async () : Promise<MovieDataInterface[]> => {
     const request = await fetch(`https://api.github.com/gists/609b043555ab17753215632c108914a8`);
     const gist = await request.json(); // omvandlar svaret till ett JavaScript-objekt
     return JSON.parse(gist.files["db.json"].content); // konverterar strängen i content till ett objekt
@@ -32,7 +32,7 @@ const getMovieObjects = async () :Promise<Movie[]> => {
         const response = await fetchGist()
         
         let movies : Movie[] = [];
-        movies = response.map((data : MovieData) => new Movie(data.Title, data.Year, data.Price, data.Poster)) 
+        movies = response.map((data : MovieDataInterface) => new Movie(data.Title, data.Year, data.Price, data.Poster)) 
 
         return movies;
     }

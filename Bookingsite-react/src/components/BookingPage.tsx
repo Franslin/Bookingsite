@@ -1,97 +1,85 @@
-import React, { useEffect, useState } from "react";
-import "./style.css"
-import SingleSeat from "./SingleSeat";
-import MovieSelector from "./MovieSelector";
-import { MovieDataInterface } from "./data/Movies";
+import { formik } from 'formik'
+import { MovieDataInterface } from './data/Movies';
 
-function BookingPage(){
+type BookingPageProps = {
+    selectedSeats: number;
+    totalSeatCost: number;
+    selectedMovie?: MovieDataInterface;
+  }
+
+
+  function formValidation(values){
+    const errors = {}
     
-    const [selectedSeats, setSelectedSeats] = useState<number>(0)
-    const [totalSeatCost, setTotalSeatCost] = useState<number>(0)
-    //  Dessa ska ju egentligen inte vara hårdkodade utan hämtas från databasem, men nu var faktiskt dina det också ;)
-    const occupiedSeats : string[] = ['R2-S4', 'R2-S5', 'R3-S7', 'R3-S8', 'R5-S4', 'R5-S5', 'R6-S5', 'R6-S6', 'R6-S7'];
-    //  Om <select> ska vara disabled eller ej
-    const [isSelectMoviesDisabled, setIsSelectMoviesDisabled] = useState(false);
-    //  Filmen som är vald, lagras som ett objekt
-    const [selectedMovie, setSelectedMovie] = useState<MovieDataInterface>();
+  }
 
-    //  När selectedSeats uppdateras så kollar denna om man ska kunna välja film eller inte
-    //  Vi uppdaterar även priset för alla sätena
-    useEffect((): void => {
-      setIsSelectMoviesDisabled(selectedSeats > 0 ? true : false)
 
-      console.log('selectedMovie from seatClicked(): ' + selectedMovie?.Title + " " + selectedMovie?.Price)
-      //  Om filmen inte har hunnits hämtats från MovieSelector.tsx än när programmet körs första gången
-      if(selectedMovie){
-        const price: number = selectedSeats * selectedMovie.Price;
-        setTotalSeatCost(price) 
-      }
-    }, [selectedSeats]);
+function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPageProps){
 
-    //  När användaren väljer en plats så vill vi att antalet valda platser och kostnaden ska uppdateras
-    const seatClicked = (action: string): void => {
-        setSelectedSeats((prevState) => //prevState används för att få ett korrekt säkert värde från state
-        action === 'add seat' ? prevState + 1 : prevState - 1
-        );      
-    }
 
-    const renderSeatRow = (row: number) => {
-      const seats = [];
-      for(let i = 0; i <= 8; i++){
-        const seatId : string = `R${row}-S${i}`
+    const formik = useFormik({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            txt: ''
+        },
 
-        //  Kollar om platsen ska renderas som valbar
-        if(!occupiedSeats.find(seat => seat === seatId)){
-          seats.push(<SingleSeat key={seatId} isOccupied={false} seatClicked={seatClicked}/>)
-        }
-        else{
-          seats.push(<SingleSeat key={seatId} isOccupied={true} seatClicked={seatClicked}/>)
-        }
-      }
-      return seats;
-    }
+        validate: formValidation,
+
+        onSubmit: values => {
+            // Hantera submit
+        },
+    })
+
 
     return(
         <>
-      <MovieSelector isSelectMoviesDisabled={isSelectMoviesDisabled} setSelectedMovie={setSelectedMovie}></MovieSelector>
-    <ul className="showcase">
-      <li>
-        <div className="seat"></div>
-        <small>Aviable</small>
-      </li>
-      <li>
-        <div className="seat selected"></div>
-        <small>Selected</small>
-      </li>
-      <li>
-        <div className="seat occupied"></div>
-        <small>Occupied</small>
-      </li>
-    </ul>
-    <div className="container">
-      <div className="screen"></div>
-      <div className="row">
-        {renderSeatRow(1)}
-      </div>
-      <div className="row">
-        {renderSeatRow(2)}
-      </div>
-      <div className="row">
-        {renderSeatRow(3)}
-      </div>
-      <div className="row">
-        {renderSeatRow(4)}
-      </div>
-      <div className="row">
-        {renderSeatRow(5)}
-      </div>
-      <div className="row">
-        {renderSeatRow(6)}
-      </div>
-    </div>
-    <p className="text">
-      You have selected <span id="count">{selectedSeats}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
-    </p>
+            <section>
+                <h1>To book these seats, we need your information!</h1>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className='form-row'>
+                        <label htmlFor="firstName">First Name</label>
+                        <input
+                            id="firstName"
+                            name="firstName"
+                            type="text"
+                            onChange={formik.handleChange}
+                            value={formik.values.firstName}/>
+                        {formik.errors.firstName ? <span className="error">{formik.errors.firstName}</span> : null}
+                    </div>
+                    <div className="row">
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            id="lastName"
+                            name="lastName"
+                            type="text"
+                            onChange={formik.handleChange}
+                            value={formik.values.lastName}/>
+                        {formik.errors.lastName ? <div className="error">{formik.errors.lastName}</div> : null}
+                    </div>
+                    <div className="row">
+                        <label htmlFor="email">Email Address</label>
+                        <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}/>
+                        {formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
+                    </div>
+                    <div className="row">
+                        <label htmlFor="txt">Message</label>
+                        <textarea
+                            id="txt"
+                            name="txt"
+                            onChange={formik.handleChange}
+                            value={formik.values.txt}/>
+                    </div>
+                    <button className="" type="submit">Submit</button>  
+                </form>
+            </section>
+
         </>
     )
 }
