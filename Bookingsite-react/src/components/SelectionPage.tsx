@@ -12,17 +12,13 @@ type SelectionPageProps = {
   setTotalSeatCost: (arg: number) => void;
   selectedMovie?: MovieDataInterface;
   setSelectedMovie: (movieDataObject: MovieDataInterface) => void;
+  occupiedSeats: string[];
 }
 
-function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotalSeatCost, selectedMovie, setSelectedMovie}:SelectionPageProps){
+function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotalSeatCost, selectedMovie, setSelectedMovie, occupiedSeats}:SelectionPageProps){
     
-
-
-    //  Dessa ska ju egentligen inte vara hårdkodade utan hämtas från databasem, men nu var faktiskt dina det också ;)
-    const occupiedSeats : string[] = ['R2-S4', 'R2-S5', 'R3-S7', 'R3-S8', 'R5-S4', 'R5-S5', 'R6-S5', 'R6-S6', 'R6-S7'];
     //  Om <select> ska vara disabled eller ej
     const [isSelectMoviesDisabled, setIsSelectMoviesDisabled] = useState(false);
-
 
     //  När selectedSeats uppdateras så kollar denna om man ska kunna välja film eller inte
     //  Vi uppdaterar även priset för alla sätena
