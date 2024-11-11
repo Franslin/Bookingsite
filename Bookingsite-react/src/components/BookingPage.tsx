@@ -1,5 +1,6 @@
-import { formik } from 'formik'
+import { useFormik } from 'formik'
 import { MovieDataInterface } from './data/Movies';
+import { useNavigate } from 'react-router-dom';
 
 type BookingPageProps = {
     selectedSeats: string[];
@@ -7,28 +8,62 @@ type BookingPageProps = {
     selectedMovie?: MovieDataInterface;
   }
 
+type errorObjectTypes = {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
 
-  function formValidation(values){
-    const errors = {}
+}
 
+  function formValidation(values: errorObjectTypes){
+    const errors: errorObjectTypes = {}
+
+    if(!values.firstName){
+        errors.firstName = 'This field is required'
+    }
+    if(!values.lastName){
+        errors.lastName = 'This field is required'
+    }
+    if (!values.email) {
+        errors.email = 'This field is required';
+    } 
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+    }
+    if(!values.phone){
+        errors.phone = 'This field is required'
+    }
+    else if(!/^(\+46|0)[7-9]\d{1,2}\d{3}\d{3,4}$/i.test(values.phone)){
+        errors.phone = 'Enter a correct phone number'
+    }
+    return errors;
   }
 
 
 function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPageProps){
 
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
             email: '',
-            txt: ''
+            phone: '',
+            selectedSeats,
+            totalSeatCost,
+            selectedMovie
         },
 
         validate: formValidation,
 
         onSubmit: values => {
-            // Hantera submit
+            //  POST görs här
+            console.log(values)
+
+            //Dirigerar användaren till tack-sida
+            navigate('/ThankYou')
         },
     })
 
@@ -36,8 +71,13 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
     return(
         <>
             <section>
-                <h1>To book these seats, we need your information!</h1>
-                <form onSubmit={formik.handleSubmit}>
+                <p className="text">
+                    You have selected <span id="count">{selectedSeats.length}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
+                </p>
+                <p>{selectedSeats.map((seat) => `${seat}, `)}</p>
+                <p>To book these seats, we need your information!</p>
+                <br></br>
+                <form onSubmit={formik.handleSubmit} noValidate>
                     <div className='form-row'>
                         <label htmlFor="firstName">First Name</label>
                         <input
@@ -45,8 +85,9 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                             name="firstName"
                             type="text"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur} 
                             value={formik.values.firstName}/>
-                        {formik.errors.firstName ? <span className="error">{formik.errors.firstName}</span> : null}
+                        {formik.touched.firstName && formik.errors.firstName ? <span className="error">{formik.errors.firstName}</span> : null}
                     </div>
                     <div className="row">
                         <label htmlFor="lastName">Last Name</label>
@@ -55,8 +96,9 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                             name="lastName"
                             type="text"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur} 
                             value={formik.values.lastName}/>
-                        {formik.errors.lastName ? <div className="error">{formik.errors.lastName}</div> : null}
+                        {formik.touched.lastName && formik.errors.lastName ? <div className="error">{formik.errors.lastName}</div> : null}
                     </div>
                     <div className="row">
                         <label htmlFor="email">Email Address</label>
@@ -65,16 +107,20 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                         name="email"
                         type="email"
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur} 
                         value={formik.values.email}/>
-                        {formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
+                        {formik.touched.email && formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
                     </div>
                     <div className="row">
-                        <label htmlFor="txt">Message</label>
-                        <textarea
-                            id="txt"
-                            name="txt"
+                        <label htmlFor="phone">Phone number</label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type='phone'
                             onChange={formik.handleChange}
-                            value={formik.values.txt}/>
+                            onBlur={formik.handleBlur} 
+                            value={formik.values.phone}/>
+                            {formik.touched.phone && formik.errors.phone ? <div className="error">{formik.errors.phone}</div> : null}
                     </div>
                     <button className="" type="submit">Submit</button>  
                 </form>

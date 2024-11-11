@@ -2,8 +2,9 @@
 import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
 import SelectionPage from './components/SelectionPage';
 import BookingPage from './components/BookingPage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MovieDataInterface } from './components/data/Movies';
+import ThankYou from './components/ThankYou';
 
 
 function Layout(){
@@ -27,7 +28,7 @@ function App() {
   const router = createBrowserRouter([
     {
       element: <Layout />,
-      //errorElement: <div>FEL</div>,
+      errorElement: <div>This page does not exist</div>,
       children: [
         {
           path:'/',
@@ -44,6 +45,14 @@ function App() {
             totalSeatCost={totalSeatCost}
             selectedMovie={selectedMovie}
           ></BookingPage>,
+        },
+        {
+          path: '/thankyou',
+          element: <ThankYou
+            setSelectedSeats={setSelectedSeats}
+            setTotalSeatCost={setTotalSeatCost}
+            setSelectedMovie={setSelectedMovie}
+          ></ThankYou>
         }
       ]
     }
