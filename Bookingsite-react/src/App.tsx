@@ -2,7 +2,7 @@
 import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
 import SelectionPage from './components/SelectionPage';
 import BookingPage from './components/BookingPage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MovieDataInterface } from './components/data/Movies';
 
 
@@ -18,7 +18,7 @@ function Layout(){
 
 function App() {
 
-  const [selectedSeats, setSelectedSeats] = useState<number>(0)
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([])
   const [totalSeatCost, setTotalSeatCost] = useState<number>(0)
   //  Filmen som är vald, lagras som ett objekt
   const [selectedMovie, setSelectedMovie] = useState<MovieDataInterface>();

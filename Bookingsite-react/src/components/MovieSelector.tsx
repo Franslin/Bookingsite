@@ -19,7 +19,7 @@ function MovieSelector({isSelectMoviesDisabled, setSelectedMovie}:MovieSelectorP
             setMovies(result)
 
             //  Sätter den första filmen i listan som default-vald i state
-            console.log('Calling setSelectedMovie from MovieSelector with: ' + result[0].Title)
+            //console.log('Calling setSelectedMovie from MovieSelector with: ' + result[0].Title)
             setSelectedMovie(result[0]);
         }
         fetchMovies()

@@ -6,8 +6,8 @@ import { MovieDataInterface } from "./data/Movies";
 import { Link } from "react-router-dom";
 
 type SelectionPageProps = {
-  selectedSeats: number;
-  setSelectedSeats: React.Dispatch<React.SetStateAction<number>>; //Möjliggör användningen av prevState
+  selectedSeats: string[];
+  setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>; //Möjliggör användningen av prevState
   totalSeatCost: number;
   setTotalSeatCost: (arg: number) => void;
   selectedMovie?: MovieDataInterface;
@@ -27,27 +27,29 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
     //  När selectedSeats uppdateras så kollar denna om man ska kunna välja film eller inte
     //  Vi uppdaterar även priset för alla sätena
     useEffect((): void => {
-      setIsSelectMoviesDisabled(selectedSeats > 0 ? true : false)
+      setIsSelectMoviesDisabled(selectedSeats.length > 0 ? true : false)
 
       console.log('selectedMovie from seatClicked(): ' + selectedMovie?.Title + " " + selectedMovie?.Price)
       //  Om filmen inte har hunnits hämtats från MovieSelector.tsx än när programmet körs första gången
       if(selectedMovie){
-        const price: number = selectedSeats * selectedMovie.Price;
+        const price: number = selectedSeats.length * selectedMovie.Price;
         setTotalSeatCost(price) 
       }
     }, [selectedSeats]);
 
-    //  Om användaren går tillbaka från formuläret behöver valda platser återställas eftersom de valda sätena inte renderas som blå
-    useEffect((): void => {
-      setSelectedSeats(0);
-      setTotalSeatCost(0);
-    }, [])
-
     //  När användaren väljer en plats så vill vi att antalet valda platser och kostnaden ska uppdateras
-    const seatClicked = (action: string): void => {
-        setSelectedSeats((prevState: number) => //prevState används för att få ett korrekt säkert värde från state
-        action === 'add seat' ? prevState + 1 : prevState - 1
-        );      
+    const seatClicked = (action: string, seatId: string): void => {
+        setSelectedSeats((prevState: string[]) => {
+          if(action === 'add seat'){
+            if(!prevState.includes(seatId)){
+              return [...prevState, seatId]
+            }
+          }
+          else if(action === 'remove seat'){
+            return prevState.filter(seat => seat !== seatId);
+          }
+          return prevState
+        })
     }
 
     const renderSeatRow = (row: number) => {
@@ -57,10 +59,10 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
 
         //  Kollar om platsen ska renderas som valbar
         if(!occupiedSeats.find(seat => seat === seatId)){
-          seats.push(<SingleSeat key={seatId} isOccupied={false} seatClicked={seatClicked}/>)
+          seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={false} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
         }
         else{
-          seats.push(<SingleSeat key={seatId} isOccupied={true} seatClicked={seatClicked}/>)
+          seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={true} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
         }
       }
       return seats;
@@ -105,10 +107,10 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
       </div>
     </div>
     <p className="text">
-      You have selected <span id="count">{selectedSeats}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
+      You have selected <span id="count">{selectedSeats.length}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
     </p>
 
-      <Link className={selectedSeats > 0 ? '' : 'hidden'} to={"/booking"}><button>CONTINUE</button></Link>
+      <Link className={selectedSeats.length > 0 ? '' : 'hidden'} to={"/booking"}><button>CONTINUE</button></Link>
 
         </>
     )

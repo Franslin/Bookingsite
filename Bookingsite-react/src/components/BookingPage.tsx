@@ -2,7 +2,7 @@ import { formik } from 'formik'
 import { MovieDataInterface } from './data/Movies';
 
 type BookingPageProps = {
-    selectedSeats: number;
+    selectedSeats: string[];
     totalSeatCost: number;
     selectedMovie?: MovieDataInterface;
   }
@@ -10,7 +10,7 @@ type BookingPageProps = {
 
   function formValidation(values){
     const errors = {}
-    
+
   }
 
 
