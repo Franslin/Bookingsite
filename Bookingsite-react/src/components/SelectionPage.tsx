@@ -48,20 +48,32 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
         })
     }
 
-    const renderSeatRow = (row: number) => {
-      const seats = [];
-      for(let i = 0; i <= 8; i++){
-        const seatId : string = `R${row}-S${i}`
+    const renderSeatRows = (): JSX.Element[] => {
+      const rows: JSX.Element[] = [];
 
-        //  Kollar om platsen ska renderas som valbar
-        if(!occupiedSeats.find(seat => seat === seatId)){
-          seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={false} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
+      for(let i = 1; i <= 7; i++){
+        const seats = [];
+
+        for(let j = 1; j <= 9; j++){
+          const seatId : string = `R${i}-S${j}`
+
+          //  Kollar om platsen ska renderas som valbar
+          if(!occupiedSeats.find(seat => seat === seatId)){
+            seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={false} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
+          }
+          else{
+            seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={true} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
+          }
         }
-        else{
-          seats.push(<SingleSeat key={seatId} seatId={seatId} isOccupied={true} seatClicked={seatClicked} selectedSeats={selectedSeats}/>)
-        }
+
+        rows.push(
+          <div key={`R${i}`} className="row">
+            {seats}
+          </div>
+        );
       }
-      return seats;
+
+      return rows;
     }
 
     return(
@@ -83,23 +95,8 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
     </ul>
     <div className="container">
       <div className="screen"></div>
-      <div className="row">
-        {renderSeatRow(1)}
-      </div>
-      <div className="row">
-        {renderSeatRow(2)}
-      </div>
-      <div className="row">
-        {renderSeatRow(3)}
-      </div>
-      <div className="row">
-        {renderSeatRow(4)}
-      </div>
-      <div className="row">
-        {renderSeatRow(5)}
-      </div>
-      <div className="row">
-        {renderSeatRow(6)}
+      <div className="">
+        {renderSeatRows()}
       </div>
     </div>
     <p className="text">
