@@ -1,5 +1,5 @@
 //import './App.css'
-import {createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider, Outlet, Navigate} from 'react-router-dom'
 import SelectionPage from './components/SelectionPage';
 import BookingPage from './components/BookingPage';
 import { useState } from 'react';
@@ -32,7 +32,7 @@ function App() {
   const router = createBrowserRouter([
     {
       element: <Layout />,
-      errorElement: <div>This page does not exist</div>,
+      errorElement: <Navigate to="/" replace />,
       children: [
         {
           path:'/',
