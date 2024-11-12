@@ -1,6 +1,7 @@
 import { useFormik } from 'formik'
 import { MovieDataInterface } from './data/Movies';
 import { useNavigate } from 'react-router-dom';
+import './style.css';
 
 type BookingPageProps = {
     selectedSeats: string[];
@@ -72,10 +73,10 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
         <>
             <section>
                 <p className="text">
-                    You have selected <span id="count">{selectedSeats.length}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
+                    You have selected <span id="count">{selectedSeats.length}</span> seat<span className={selectedSeats.length === 1 ? 'hidden' : ''}>s </span>for a price of $<span id="total">{totalSeatCost}</span>
                 </p>
                 <p>{selectedSeats.map((seat) => `${seat}, `)}</p>
-                <p>To book these seats, we need your information!</p>
+                <p>To complete your booking, we need your information!</p>
                 <br></br>
                 <form onSubmit={formik.handleSubmit} noValidate>
                     <div className='form-row'>
@@ -89,7 +90,7 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                             value={formik.values.firstName}/>
                         {formik.touched.firstName && formik.errors.firstName ? <span className="error">{formik.errors.firstName}</span> : null}
                     </div>
-                    <div className="row">
+                    <div className="form-row">
                         <label htmlFor="lastName">Last Name</label>
                         <input
                             id="lastName"
@@ -100,7 +101,7 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                             value={formik.values.lastName}/>
                         {formik.touched.lastName && formik.errors.lastName ? <div className="error">{formik.errors.lastName}</div> : null}
                     </div>
-                    <div className="row">
+                    <div className="form-row">
                         <label htmlFor="email">Email Address</label>
                         <input
                         id="email"
@@ -111,7 +112,7 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                         value={formik.values.email}/>
                         {formik.touched.email && formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
                     </div>
-                    <div className="row">
+                    <div className="form-row">
                         <label htmlFor="phone">Phone number</label>
                         <input
                             id="phone"
@@ -122,7 +123,7 @@ function BookingPage({selectedSeats, totalSeatCost, selectedMovie}:BookingPagePr
                             value={formik.values.phone}/>
                             {formik.touched.phone && formik.errors.phone ? <div className="error">{formik.errors.phone}</div> : null}
                     </div>
-                    <button className="" type="submit">Submit</button>  
+                    <button className="continue-button" type="submit">Submit</button>  
                 </form>
             </section>
 

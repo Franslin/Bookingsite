@@ -95,15 +95,15 @@ function SelectionPage({selectedSeats, setSelectedSeats, totalSeatCost, setTotal
     </ul>
     <div className="container">
       <div className="screen"></div>
-      <div className="">
+      <div className="seat-row-container">
         {renderSeatRows()}
       </div>
     </div>
-    <p className="text">
+    <p className="text center-text">
       You have selected <span id="count">{selectedSeats.length}</span> seats for a price of $<span id="total">{totalSeatCost}</span>
     </p>
 
-      <Link className={selectedSeats.length > 0 ? '' : 'hidden'} to={"/booking"}><button>CONTINUE</button></Link>
+      <Link className={selectedSeats.length > 0 ? 'continue-button' : 'hidden'} to={"/booking"}><button>CONTINUE</button></Link>
 
         </>
     )
