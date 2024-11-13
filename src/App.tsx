@@ -21,7 +21,7 @@ function App() {
 
   const [selectedSeats, setSelectedSeats] = useState<string[]>([])
   const [totalSeatCost, setTotalSeatCost] = useState<number>(0)
-  //  Dessa ska ju egentligen inte vara hårdkodade utan hämtas från databasem, men nu var faktiskt dina det också ;)
+  //  Dessa ska egentligen inte vara hårdkodade utan hämtas från databasen
   const [occupiedSeats, setOccupiedSeats] = useState<string[]>(['R2-S4', 'R2-S5', 'R3-S7', 'R3-S8', 'R5-S4', 'R5-S5', 'R6-S5', 'R6-S6', 'R6-S7']);
     
   //  Filmen som är vald, lagras som ett objekt

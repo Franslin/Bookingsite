@@ -1,47 +1,84 @@
-2/11 - Sätter upp projekt och börjar bygga på grundfunktionerna. Jag installerar typescript och sätter inställningar för detta samt skapar mapp-struktur. Då jag inte riktigt har fattat hur gist fungerar ännu så sätter jag upp en temporär lokal json-fil som jag fetchar för att kunna utveckla resten av funktionerna så länge. 
-Jag fixar funktioner för att kunna välja säten, rendera film-alternativen på sidan och börjar fixa på texten som ska visa antal säten och pris. 
-Jag får kolla upp vissa saker som typescript klagar på, bland annat varför det automatiskt läggs till frågetecken efter vissa variabler. 
+2/11 
+-Sätter upp projekt och börjar bygga på grundfunktionerna. Jag installerar typescript och sätter inställningar för detta samt skapar mapp-struktur för projektet. 
 
-I en separat fil så har jag byggt funktionen som fetchar json-filen och sedan med datan skapar objekt utifrån en klass. Både klassen och funktionen exporterar jag så att de kan användas från "huvudfilen". Jag exporterar klassen bara för att kunna använda den till typecasting. Jag tyckte att detta var ett bättre alternativ än att skapa en separat egen typ med samma variabler eftersom man då skulle behöva göra ändringar i klassen på två ställen. 
+-Då jag inte riktigt har fattat hur gist fungerar ännu så sätter jag upp en temporär lokal json-fil som jag fetchar för att kunna utveckla resten av funktionerna så länge. 
 
-5/11 - skapar github repo
+-Jag fixar funktioner för att kunna välja säten, rendera film-alternativen på sidan och börjar fixa på texten som ska visa antal säten och pris. 
 
-6/11 - skapar ett react projekt i en undermapp (ifall något blir fel) där jag ska bygga sidan. Börjar bygga komponenter
-för film-alternativen men får problem med hur jag ska typa propsen. Bygger useEffect för att rendera filmerna när sidan laddas.
+-Jag får kolla upp vissa saker som typescript klagar på, bland annat varför det automatiskt läggs till frågetecken efter vissa variabler. 
 
-7/11 - frågar i klassen och får svar kring att typa propsen. Jag har lagt märke till att eventlisteners på sätena inte fungerar i react. Jag skapar så en komponent som motsvarar ett säte som jag sedan renderar på raderna. Då kan varje komponent själv hålla koll på om den är vald eller inte, istället för att till exempel skapa en Array med valda sätesnummer. Jag kommer dock att behöva ett usestate som håller koll på pris och antal valda säten.  
+-I en separat fil så har jag byggt funktionen som fetchar json-filen och sedan med datan skapar objekt utifrån en klass. Både klassen och funktionen exporterar jag så att de kan användas från "huvudfilen". Jag exporterar klassen bara för att kunna använda den till typecasting. Jag tyckte att detta var ett bättre alternativ än att skapa en separat egen typ med samma variabler eftersom man då skulle behöva göra ändringar i klassen på två ställen. 
 
-Occupied seats är kodade som strängar eftersom jag inte hämtar dem från en json fil för tillfället. Om jag hinner så skulle jag vilja lägga till detta, men de efterfrågade funktionerna är en prioritering just nu. 
 
-Behöver ta reda på hur jag ska hantera valet av filmer i react, om detta också ska sparas i ett state eller om det räcker med att hämta det valda html-elementet med JavaScript. Jag vill egentligen inte att användaren ska kunne byta film när den har börjat välja säten, utan att den då behöver genom föra bokningen helt först. Då måste jag hitta ett sätt att göra <select>-elementet inaktivt medan det finns säten valda. 
+5/11 
+-Skapar Github repo
 
-8/11 - tydligen så kan man ganska enkelt inaktivera <select> med attributet disabled. Dock så får jag göra det till en react-komponent för att den faktiskt ska uppdateras när ändringen sker. 
 
-Hade väldiga problem med att state-uppdateringar är asykrona och inte uppdateras direkt. Detta gjorde det svårt att veta hur många säten som är valda och ledde till jag använde en useEffect på selectedSeats-staten i "BookingPage". Jag använder mig även av en variabel som heter prevState för att få ett korrekt värde av state selectedSeats.
+6/11 
+-Skapar ett react projekt i en undermapp (ifall något blir fel) där jag ska bygga den nya sidan. 
 
-Dock när jag anropade funktionen seatClicked från komponenten SingleSeat så kunde jag inte använda useEffect som lyssnar på när den lokala staten isSelected ändrades. Jag vet inte varför, men all blev kaos och selectedSeats i komponenten BookingPage hamnade på -108 varje gång jag startade sidan. Jag satt länge och försökte lösa detta men nöjde mig tillslut med att göra ett anrop till seatClicked() direkt när ett säte klickas på istället för att låta useEffect lyssna på den lokala staten. Konsekvensen av detta blev att state isSelected inte har hunnit uppdateras när anropet sker, vilket gjorde att jag fick byta plats på parametrarna, så att de skickas "tvärt om" vad de egentligen ska göra. Detta kanske inte är best practice egentligen, men jag kände att jag måste bygga vidare på sidan och inte fastna på något som annars fungerar. 
+-Börjar bygga komponenter för film-alternativen men får problem med hur jag ska typa propsen som skickas in i en komponent.
+
+-Bygger useEffect för att rendera filmerna när sidan laddas.
+
+
+7/11 
+-Frågar i klassen och får svar kring att typa propsen.
+ 
+-Jag har lagt märke till att eventlisteners på sätena inte fungerar i react. Jag skapar då en komponent som motsvarar ett säte som jag sedan renderar på raderna. Då kan varje komponent själv hålla koll på om den är vald eller inte, istället för att till exempel skapa en Array med valda sätesnummer. Jag kommer dock att behöva ett usestate som håller koll på pris och antal valda säten. 
+ 
+-occupiedSeats är kodade som strängar eftersom jag inte hämtar dem från en json fil för tillfället. Om jag hinner så skulle jag vilja lägga till detta, men de efterfrågade funktionerna är en prioritering just nu. 
+
+-Behöver ta reda på hur jag ska hantera valet av filmer i react, om detta också ska sparas i ett state eller om det räcker med att hämta det valda html-elementet med JavaScript. Jag vill egentligen inte att användaren ska kunna byta film när den har börjat välja säten, utan att den då behöver genomföra bokningen helt först. Då måste jag hitta ett sätt att göra <select>-elementet inaktivt medan det finns säten valda. 
+
+
+8/11 
+-Tydligen så kan man ganska enkelt inaktivera <select> med attributet disabled. Dock så får jag göra det till en react-komponent för att den faktiskt ska uppdateras när ändringen sker. 
+
+-Hade väldiga problem med att state-uppdateringar är asykrona och inte uppdateras direkt. Detta gjorde det svårt att veta hur många säten som är valda och ledde till jag använde en useEffect på selectedSeats-staten i "BookingPage". 
+
+-Jag använder mig även av en variabel som heter prevState för att få ett korrekt värde av state selectedSeats.
+
+-Dock när jag anropade funktionen seatClicked från komponenten SingleSeat så kunde jag inte använda useEffect som lyssnar på när den lokala staten isSelected ändrades. Jag vet inte varför, men all blev kaos och selectedSeats i komponenten BookingPage hamnade på -108 varje gång jag startade sidan. 
+Jag satt länge och försökte lösa detta men nöjde mig tillslut med att göra ett anrop till seatClicked() direkt när ett säte klickas på istället för att låta useEffect lyssna på den lokala staten. Konsekvensen av detta blev att state isSelected inte har hunnit uppdateras när anropet sker, vilket gjorde att jag fick byta plats på parametrarna, så att de skickas "tvärt om" vad de egentligen ska göra. Detta kanske inte är best practice egentligen, men jag kände att jag måste bygga vidare på sidan och inte fastna på något som annars fungerar. 
 seatClicked(`${isSelected ? "remove seat" : "add seat"}`)
 
-Jag börjar sist arbeta på hur det ska fungera när användaren väljer en film. Jag behöver komma på ett sätt att ta reda på vilket <option> som är valt och sedan värdet av detta för att beräkna priset. Jag funderar på att lagra den valda filmen i useState, men vet inte hur jag ska ta reda på vilken film som är vald. Inte heller hur detta ska fungera när en film är förvald. Detta ska jag undersöka närmare imorgon. 
+-Jag börjar sist arbeta på hur det ska fungera när användaren väljer en film. Jag behöver komma på ett sätt att ta reda på vilket <option> som är valt och sedan värdet av detta för att beräkna priset. Jag funderar på att lagra den valda filmen i useState, men vet inte hur jag ska ta reda på vilken film som är vald. Inte heller hur detta ska fungera när en film är förvald. Detta ska jag undersöka närmare imorgon. 
 
-9/11 - Jag kom på att det är ju bara att "drilla" en set-funktion ned till komponenten MovieOption som sedan meddelar ett state när den klickas på. På så sätt så behöver man inte hämta den valda filmen från <select>-elementet som man annars skulle göra i vanilla JavaScript. 
 
-Senare upptäckte jag att detta inte fungerade eftersom onClick på ett <option> inte verkar aktiveras när det ligger i en <select>-lista. Jag får därför skriva om koden och lägga till ett onChange-attribut på <select> som meddelar vilken film som har blivit vald. 
+9/11 
+-Jag kom på att det är ju bara att "drilla" en set-funktion ned till komponenten MovieOption som sedan meddelar ett state när den klickas på. På så sätt så behöver man inte hämta den valda filmen från <select>-elementet som man annars skulle göra i vanilla JavaScript. 
 
-Jag börjar nu på formulär-sidan. Jag bytte namn på komponenten "BookingPage" till "SelectionPage". Detta eftersom att jag tycte namnet var mer passande. Jag använder nu namnet "BookingPage" till formulär-sidan där användaren faktiskt gör sin bokning. 
+-Senare upptäckte jag att detta inte fungerade eftersom onClick på ett <option> inte verkar aktiveras när det ligger i en <select>-lista. Jag får därför skriva om koden och lägga till ett onChange-attribut på <select> som meddelar vilken film som har blivit vald. 
 
-Jag har bestämt mig för att flytta staten "selectedSeats" och "totalSeatCost"  upp från SelectionPage till App.tsx. Detta för att denna information även ska vara tillgänglig på formulär-sidan. 
-När jag började att bygga sidan i react så kände jag att en context-klass inte skulle vara nödvändig eftersom projektet inte är så stort och att prop-drilling skulle vara hanterbart. Jag kan absolut se fördelarna med att använda context, men känner inte att arbete för att omvandla och applicera detta är värt det i nuläget. 
+-Jag börjar nu på formulär-sidan. Jag bytte namn på komponenten "BookingPage" till "SelectionPage". Detta eftersom att jag tyckte namnet var mer passande. Jag använder nu namnet "BookingPage" till formulär-sidan där användaren faktiskt gör sin bokning. 
 
-10/11 - Jag har skapat en knapp för att ta sig vidare till formuläret. Denna är bara synligt när man har valt minst en plats. Jag har även installerat formik och börjat bygga på formuläret.
+-Jag har bestämt mig för att flytta staten "selectedSeats" och "totalSeatCost"  upp från SelectionPage till App.tsx. Detta för att denna information även ska vara tillgänglig på formulär-sidan. 
 
-Jag har precis insett att jag behöver ett nytt sätt att hålla kolla på vilka enskilda säten som användaren har valt att skicka med formuläret. Detta gör att jag får ändra useState selectedSeats till att lagra en array av stängar istället för nummret antalet platser som är makerade. Varje säte har redan ett eget unikt id som det får i funktionen renderSeatRow().  
+-När jag började att bygga sidan i react så kände jag att en context-klass inte skulle vara nödvändig eftersom projektet inte är så stort och att prop-drilling skulle vara hanterbart. Jag kan absolut se fördelarna med att använda context, men känner inte att arbetet/tiden för att omvandla och applicera detta är värt det i nuläget. 
 
-11/11 - nu har jag även fixat så att om användaren går tillbaka till sätesvalet från formuläret så är de valda platserna sparade, detta sker med en useEffect i SingleSeat-kompnenten som kollar om varje stolsnummer finns med i användarens Array över valda säten. 
 
-Jag har även använt mig av formik för att skapa formuläret för användarens kontaktuppgifter. Jag såg till att de valda platserna skickas med när det submitas så att backend kan genomföra bokningen komplett. 
+10/11 
+-Jag har skapat en knapp för att ta sig vidare till formuläret. Denna är bara synligt när man har valt minst en plats. Jag har även installerat formik och börjat bygga på formuläret.
 
-Jag har skapat tack-sida som bekräftar bokningen och som tar bort användarens sparade säten i useState nu när allt är färdigt. Dessa platser läggs också till i arrayen av upptagna platser, så att man inte kan välja samma igen. För att göra detta så behövde jag göra om arrayen till ett useState. 
+-Jag har precis insett att jag behöver ett nytt sätt att hålla kolla på vilka enskilda säten som användaren har valt att skicka med formuläret. Detta gör att jag får ändra useState selectedSeats till att lagra en array av stängar istället för (numret) antalet platser som är markerade. Varje säte har redan ett eget unikt id som det får i funktionen renderSeatRow().  
 
-12/11 - Jag  har nu förbättrat sättet som raderna med säten renderas. I början så anropade jag en funktion för varje rad jag ville ha, men nu är antalet rader förinställt vilket gör att den bara behöver anropas en gång. 
-Jag har även fixat till CSS på sidan så att den ser snygg ut. 
+
+11/11 
+-Nu har jag även fixat så att om användaren går tillbaka till sätesvalet från formuläret så är de valda platserna sparade, detta sker med en useEffect i SingleSeat-komponenten som kollar om varje stolsnummer finns med i användarens Array över valda säten. 
+
+-Jag har även använt mig av formik för att skapa formuläret för användarens kontaktuppgifter. Jag såg till att de valda platserna skickas med när det submitas så att backend kan genomföra bokningen komplett. Helt skulle ju dessa postas till en json-fil, men i nuläget så loggas de bara i konsolen.
+
+-Jag har skapat tack-sida som bekräftar bokningen och som tar bort användarens sparade säten i useState nu när allt är färdigt. Dessa platser läggs också till i arrayen av upptagna platser, så att man inte kan välja samma igen. För att göra detta så behövde jag göra om arrayen till ett useState. 
+
+
+12/11 
+-Jag har nu förbättrat sättet som raderna med säten renderas. I början så anropade jag en funktion för varje rad jag ville ha, men nu är antalet rader förinställt vilket gör att den bara behöver anropas en gång. 
+
+-Jag har även fixat till CSS på sidan så att den ser snygg ut. 
+
+-Sidan är (efter mycket strul) publicerade på github pages, men jag lyckas inte få eslint att fungera. 
+
+
+13/11 - Sriver Read.me 
+
